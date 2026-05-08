@@ -1,0 +1,20 @@
+REST API-JSON
+
+GET/users - list all users
+
+GET/users/1 - get the user with id 1
+GET/users/2 - get the user with id 2
+
+dynamic id = :id
+GET/users/:id
+app.get("/api/users/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const user = users.find((user) => user.id === id);
+  return res.json(user);
+});
+
+POST/users - create new user
+
+PATCH/user/id - edit the user with id 1
+
+DETETE/users/1 - delete the user with id 1
