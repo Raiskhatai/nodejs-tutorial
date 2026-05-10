@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>shortener</title>
+  </head>
+  <body>
+    <h1 style="text-transform: uppercase">URL shortener page</h1>
+   <div class="">
+    <% if (locals.id) { %> <!-- locals means backend se jo data aa rha hey -->
+      <h3>Generated:https://localhost:8000/url/<%= id %> </h3>
+    <% } %>
+    <form action="/url" method="post">
+      <label style="text-transform: capitalize" for=""
+        >enter your original url</label
+      >
+      <input type="text" placeholder="https://example.com" name="url" />
+      <button type="submit">Generate</button>
+    </form>
+   </div>
+
+   <div class="">
+    <% if (locals.urls) { %>
+        <table >
+          <thead>
+            <th>S.NO</th>
+            <th>SHORT ID</th>
+            <th>REDIRECT</th>
+          </thead>
+          <tbody style="">
+            <% urls.forEach((url,index) => { %>
+            <tr>
+               <td><%= index+1  %></td>
+             <td><%= url.shortId  %></td>
+             <td><%= url.redirectURL  %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+    <% } %>
+   </div>
+
+  </body>
+</html>
