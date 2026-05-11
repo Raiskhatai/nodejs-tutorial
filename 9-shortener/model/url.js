@@ -30,7 +30,14 @@ async function findAndUpdate(shortId) {
     `,
     [shortId],
   );
-  return result;
+  return result[0];
+}
+
+async function getSingleValue(shortId) {
+  const [result] = await db.query(`select * from url where shortId=?`, [
+    shortId,
+  ]);
+  return result[0];
 }
 
 async function getAllValue() {
@@ -38,4 +45,4 @@ async function getAllValue() {
   return result;
 }
 
-module.exports = { create, findAndUpdate, getAllValue };
+module.exports = { create, findAndUpdate, getAllValue, getSingleValue };

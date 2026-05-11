@@ -11,9 +11,11 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
     "mysql2": "^3.22.3",
-    "nanoid": "^5.1.11"
+    "nanoid": "^5.1.11",
+    "uuid": "^14.0.0"
   }
 }
