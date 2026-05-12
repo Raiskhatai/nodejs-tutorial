@@ -1,12 +1,13 @@
 const db = require("../config/database");
 
-async function create(shortId, redirectURL, visitHistory) {
+async function create(shortId, redirectURL, createdBy) {
   const result = await db.query(
-    `insert into url(shortId,redirectURL,visitHistory) values(?,?,?);`,
+    `insert into url(shortId,redirectURL,visitHistory,createdBy) values(?,?,?,?);`,
     [
       shortId,
       redirectURL,
       JSON.stringify({ timestamp: new Date().toLocaleString() }),
+      createdBy,
     ],
   );
 }
@@ -45,4 +46,18 @@ async function getAllValue() {
   return result;
 }
 
-module.exports = { create, findAndUpdate, getAllValue, getSingleValue };
+async function getUrlByUser(createdBy) {
+  const [result] = await db.query(`select * from url where createdBy=?`, [
+    createdBy,
+  ]);
+
+  return result;
+}
+
+module.exports = {
+  create,
+  findAndUpdate,
+  getAllValue,
+  getSingleValue,
+  getUrlByUser,
+};

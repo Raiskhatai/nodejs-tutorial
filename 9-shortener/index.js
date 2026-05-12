@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
-app.use("/url", restrictToLoggedInUserOnly, urlRoutes);
+app.use("/url", urlRoutes);
 app.use("/", staticRouter);
 app.use("/user", userRouter);
 

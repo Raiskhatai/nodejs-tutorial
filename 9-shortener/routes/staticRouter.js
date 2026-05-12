@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const url = require("../model/url");
+const { restrictToLoggedInUserOnly } = require("../middleware/auth");
 
-router.get("/", async (req, res) => {
-  const allUrl = await url.getAllValue();
+router.get("/", restrictToLoggedInUserOnly, async (req, res) => {
+  const allUrl = await url.getUrlByUser(req.user.sr_no);
   return res.render("home", {
     urls: allUrl,
   });

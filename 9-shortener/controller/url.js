@@ -3,13 +3,18 @@ const URL = require("../model/url");
 
 async function handleGenerateNewShortURL(req, res) {
   const body = req.body;
+
+  if (!body.url) return res.status(400).json({ Error: "URL is required" });
+
+  const shortId = nanoid(8);
+
   const dataAndtime = new Date();
   const stringifyDateAndTime = dataAndtime.toLocaleString();
-  if (!body.url) return res.status(400).json({ Error: "URL is required" });
-  const shortId = nanoid(8);
-  await URL.create(shortId, body.url);
 
-  return res.render("home", { id: shortId });
+  await URL.create(shortId, body.url, req.user.sr_no);
+  const allUrls = await URL.getUrlByUser(req.user.sr_no);
+
+  return res.render("home", { id: shortId, urls: allUrls });
 }
 
 async function findOneAndUpdate(req, res) {
