@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const URL = require("../models/url");
+const { nanoid } = require("nanoid");
 
 router.get("/", async (req, res) => {
   const allUrls = await URL.find({});
-  return res.render("home", { urls: allUrls });
+  const shortID = nanoid(8);
+  return res.render("home", { urls: allUrls, id: shortID });
 });
 
 router.get("/signup", (req, res) => {

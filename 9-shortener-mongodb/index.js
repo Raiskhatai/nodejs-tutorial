@@ -4,20 +4,23 @@ const app = express();
 const URL = require("./models/url");
 const port = 8000;
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 const urlRouter = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
 const userRouter = require("./routes/user");
+const { restrictToLoggedinUserOnly } = require("./middleware/auth");
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
 app.use(express.json()); // params data ke liye
 app.use(express.urlencoded({ extended: false })); // form data ke liey
+app.use(cookieParser()); // cookie se stored id fetch karne ke liye
 
 connectToMongoDB("mongodb://localhost:27017/short-url"); // short-url is database name
 
-app.use("/url", urlRouter);
+app.use("/url", restrictToLoggedinUserOnly, urlRouter);
 app.use("/user", userRouter);
 app.use("/", staticRouter);
 
@@ -36,7 +39,6 @@ app.get("/:shortId", async (req, res) => {
     },
     { $push: { visitHistory: { timeStamp: Date.now() } } },
   );
-  console.log(entry);
   if (!entry) return res.status(400).send("url not found");
   res.redirect(entry.redirectURL);
 });
